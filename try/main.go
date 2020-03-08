@@ -1,13 +1,17 @@
 package main
 
 import (
-	linkedlist "github.com/stucamp/golist"
+	goList "github.com/stucamp/golist"
 )
 
 func main() {
-	lst := linkedlist.List{}
+	lst := goList.List{}
 
-	lst.Insert(5)
+	for i := 0; i <= 100; i += 10 {
+		lst.Insert(i)
+	}
+
+	lst.Reverse()
 
 	lst.Display()
 }

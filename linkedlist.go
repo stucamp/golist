@@ -132,6 +132,6 @@ func (l *List) Reverse() {
 		curr = next
 	}
 	l.head = prev
-	Display(l.head)
+	//Display(l.head)
 
 }
