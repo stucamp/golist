@@ -4,21 +4,27 @@ import (
 	"fmt"
 )
 
-type node struct {
-	prev *node
-	next *node
-	key  interface{}
+// Node type is an element of a linked list that contains references to the previous
+// (prev) and next (next) elements, which contains value (val).
+type Node struct {
+	prev *Node
+	next *Node
+	val  interface{}
 }
 
-type list struct {
-	head *node
-	tail *node
+// List is a struct comprising of a reference to the head node and tail node of a
+// List type
+type List struct {
+	head *Node
+	tail *Node
 }
 
-func (l *list) insert(key interface{}) {
-	lst := &node{
+// Insert placed a new Node type struct at the head of a list and references the
+// Node as it's next Node.
+func (l *List) Insert(val interface{}) {
+	lst := &Node{
 		next: l.head,
-		key:  key,
+		val:  val,
 	}
 	if l.head != nil {
 		l.head.prev = lst
@@ -32,19 +38,22 @@ func (l *list) insert(key interface{}) {
 	l.tail = li
 }
 
-func (l *list) append(key interface{}) {
-	newTail := &node{
+// Append take a value and places a new Node struct as the tail and previous tail
+// as the that Node's prev parameter
+func (l *List) Append(val interface{}) {
+	newTail := &Node{
 		prev: l.tail,
-		key:  key,
+		val:  val,
 	}
 	l.tail.next = newTail
 	l.tail = newTail
 }
 
-func (l *list) findNode(key interface{}) (bool, *node) {
+// FindNode iterates from head to tail of a list looking for the pass value (val)
+func (l *List) FindNode(val interface{}) (bool, *Node) {
 	lst := l.head
 	for lst != nil {
-		if lst.key == key {
+		if lst.val == val {
 			return true, lst
 		}
 		lst = lst.next
@@ -52,9 +61,11 @@ func (l *list) findNode(key interface{}) (bool, *node) {
 	return false, nil
 }
 
-func (l *list) remNode(key interface{}) bool {
+// RemNode uses FindNode to vind the first element with value val (if there),
+// then checks if the Node containing value val is the head or not... removing as needed
+func (l *List) RemNode(val interface{}) bool {
 
-	isThere, current := l.findNode(key)
+	isThere, current := l.FindNode(val)
 	if isThere && (current != l.head) {
 		newHead := current.prev
 		newHead.next = current.next
@@ -72,42 +83,46 @@ func (l *list) remNode(key interface{}) bool {
 
 }
 
-func (l *list) display() {
+// Display prints  to std.out an entire list
+func (l *List) Display() {
 	lst := l.head
 	for lst != nil {
 		if lst.next != nil {
-			fmt.Printf("%+v -> ", lst.key)
+			fmt.Printf("%+v -> ", lst.val)
 		} else {
-			fmt.Printf("%+v", lst.key)
+			fmt.Printf("%+v", lst.val)
 		}
 		lst = lst.next
 	}
 	fmt.Println()
 }
 
-func display(lst *node) {
+// Display here takes a Node struct and prints the list after that Node
+func Display(lst *Node) {
 	for lst != nil {
 		if lst.next != nil {
-			fmt.Printf("%v -> ", lst.key)
+			fmt.Printf("%v -> ", lst.val)
 		} else {
-			fmt.Printf("%v", lst.key)
+			fmt.Printf("%v", lst.val)
 		}
 		lst = lst.next
 	}
 	fmt.Println()
 }
 
-func showBackwards(lst *node) {
+// ShowBackwards takes a Node struct and prints the list before that Node
+func ShowBackwards(lst *Node) {
 	for lst != nil {
-		fmt.Printf("%v <-", lst.key)
+		fmt.Printf("%v <-", lst.val)
 		lst = lst.prev
 	}
 	fmt.Println()
 }
 
-func (l *list) reverse() {
+// Reverse completely reverses a List's Node objects links
+func (l *List) Reverse() {
 	curr := l.head
-	var prev *node
+	var prev *Node
 	l.tail = l.head
 
 	for curr != nil {
@@ -117,6 +132,6 @@ func (l *list) reverse() {
 		curr = next
 	}
 	l.head = prev
-	display(l.head)
+	Display(l.head)
 
 }
